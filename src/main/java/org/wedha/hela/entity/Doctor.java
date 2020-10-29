@@ -30,7 +30,7 @@ public class Doctor implements Serializable {
 
     private String otherNames;
 
-    @OneToMany(mappedBy = "ieBrokerFeeds", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Address> addressList;
 
     public void setId(Long id) {
