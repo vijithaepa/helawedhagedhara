@@ -1,0 +1,55 @@
+spring:
+  profiles:
+    active: test
+
+server:
+  servlet:
+    contextPath: /hela-wedha
+
+---
+spring:
+  profiles: test
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.cloud.aws.autoconfigure.messaging.MessagingAutoConfiguration
+#      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+#      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/hela?autoReconnect=true&socketTimeout=120000&serverTimezone=UTC
+    username: hela
+    password: admin123
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: false
+  jooq:
+    sql-dialect:
+---
+spring:
+  profiles: hela-prod
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:hela;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    hikari:
+      max-lifetime: 360000 # in mil-> 360s as 400s was set in sf360 DB in UAT
+    h2:
+      console:
+        enabled: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+      dialect: org.hibernate.dialect.MySQLDialect
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
